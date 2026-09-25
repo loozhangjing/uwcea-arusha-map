@@ -11,7 +11,7 @@
 
 <script>
 import { onMount } from "svelte";
-import { LIBRARY } from "$lib/polygons";
+import { POLYGONS } from "$lib/polygons";
 
 // these coordinates & zoom level show most of the school on the screen
 const INITIAL_COORDINATES = [-3.361, 36.613];
@@ -26,9 +26,11 @@ onMount(() => {
 		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 	}).addTo(map);
 
-	const library = L.polygon(LIBRARY).addTo(map);
+	for (const [landmarkName, coordinates] of Object.entries(POLYGONS)) {
+		const polygon = L.polygon(coordinates).addTo(map);
 
-	library.on("click", (e) => console.log("library clicked"));
+		polygon.on("click", (e) => console.log(landmarkName, "clicked"));
+	}
 });
 </script>
 
