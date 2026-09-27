@@ -4,12 +4,8 @@
 import { type LatLngTuple } from "leaflet";
 
 import { onMount } from "svelte";
-import { POLYGONS } from "$lib/polygons";
-
-// these coordinates & zoom level show most of the school on the screen
-const INITIAL_COORDINATES: LatLngTuple = [-3.361, 36.613];
-const INITIAL_ZOOM_LEVEL = 18;
-const MAX_ZOOM_LEVEL = 22;
+import { INITIAL_COORDINATES, INITIAL_ZOOM_LEVEL, MAX_ZOOM_LEVEL } from "$lib/constants";
+import { POLYGONS } from "$lib/database/polygons";
 
 onMount(async () => {
 	const Leaflet = await import("leaflet");
