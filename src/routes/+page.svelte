@@ -14,11 +14,18 @@ onMount(async () => {
 
 	const L = Leaflet.default;
 
-	const map = L.map('map').setView(INITIAL_COORDINATES, INITIAL_ZOOM_LEVEL);
+	const map = L.map('map', {
+		attributionControl: false
+	}).setView(INITIAL_COORDINATES, INITIAL_ZOOM_LEVEL);
 
 	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 		maxZoom: MAX_ZOOM_LEVEL,
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+	}).addTo(map);
+
+	// move attribution from bottom right so the StructureSidebar doesn't cover it
+	L.control.attribution({
+		position: "bottomleft",
 	}).addTo(map);
 
 	for (const [structureName, coordinates] of Object.entries(POLYGONS)) {
@@ -33,7 +40,10 @@ onMount(async () => {
 </script>
 
 <div id="map"></div>
-<StructureSidebar {...selectedStructure} />
+<!-- do not show sidebar if no structure is selected -->
+{#if selectedStructure !== null}
+	<StructureSidebar {...selectedStructure} />
+{/if}
 
 <style>
 :global(body) {
