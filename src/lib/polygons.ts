@@ -1,4 +1,11 @@
-export const POLYGONS = {
+import { type LatLngExpression } from "leaflet";
+
+type Polygons = {
+	// every key of the object must be a string and every value an array of pairs of numerical coordinates
+	[key: string]: LatLngExpression[]
+}
+
+export const POLYGONS: Polygons = {
 	RECEPTION: [
 		[ -3.361694, 36.612475 ],
 		[ -3.361749, 36.612517 ],

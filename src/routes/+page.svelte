@@ -1,24 +1,22 @@
-<svelte:head>
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-		 integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-		 crossorigin=""/>
-	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-		 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-		 crossorigin=""></script>
-</svelte:head>
-
 <div id="map"></div>
 
-<script>
+<script lang="ts">
+import { type LatLngTuple } from "leaflet";
+
 import { onMount } from "svelte";
 import { POLYGONS } from "$lib/polygons";
 
 // these coordinates & zoom level show most of the school on the screen
-const INITIAL_COORDINATES = [-3.361, 36.613];
+const INITIAL_COORDINATES: LatLngTuple = [-3.361, 36.613];
 const INITIAL_ZOOM_LEVEL = 18;
 const MAX_ZOOM_LEVEL = 22;
 
-onMount(() => {
+onMount(async () => {
+	const Leaflet = await import("leaflet");
+	await import("leaflet/dist/leaflet.css");
+
+	const L = Leaflet.default;
+
 	const map = L.map('map').setView(INITIAL_COORDINATES, INITIAL_ZOOM_LEVEL);
 
 	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
